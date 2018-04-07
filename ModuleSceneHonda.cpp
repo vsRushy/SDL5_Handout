@@ -3,6 +3,7 @@
 #include "ModuleSceneHonda.h"
 #include "ModuleTextures.h"
 #include "ModuleRender.h"
+#include "ModulePlayer.h"
 
 // Reference at https://youtu.be/6OlenbCC4WI?t=382
 
@@ -38,7 +39,10 @@ bool ModuleSceneHonda::Start()
 	graphics = App->textures->Load("honda_stage2.png");
 
 	// TODO 1: Enable (and properly disable) the player module
-	
+	App->scene_honda->Enable();
+
+	if (App->scene_honda->IsEnabled() == true)
+		App->player->Enable();
 
 	return ret;
 }
@@ -48,6 +52,11 @@ bool ModuleSceneHonda::CleanUp()
 {
 	// TODO 5: Remove all memory leaks
 	LOG("Unloading honda stage");
+
+	App->scene_honda->Disable();
+
+	if (App->scene_honda->IsEnabled() == false)
+		App->player->Disable();
 
 	return true;
 }

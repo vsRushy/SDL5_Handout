@@ -100,6 +100,7 @@ update_status ModuleSceneKen::Update()
 	App->render->Blit(graphics, 0, 170, &ground);
 
 	// TODO 2: make so pressing SPACE the HONDA stage is loaded
+	if()
 
 	return UPDATE_CONTINUE;
 }

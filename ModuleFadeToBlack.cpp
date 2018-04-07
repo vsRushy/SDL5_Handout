@@ -5,6 +5,8 @@
 #include "ModuleRender.h"
 #include "SDL/include/SDL_render.h"
 #include "SDL/include/SDL_timer.h"
+#include "ModuleSceneKen.h"
+#include "ModuleSceneHonda.h"
 
 ModuleFadeToBlack::ModuleFadeToBlack()
 {
@@ -38,7 +40,16 @@ update_status ModuleFadeToBlack::Update()
 			if(now >= total_time)
 			{
 				// TODO 3: enable / disable the modules received when FadeToBlacks() gets called
-				
+				if (App->scene_ken->IsEnabled() == true) {
+
+					App->scene_ken->Disable();
+					App->scene_honda->Enable();
+				}
+				else if (App->scene_honda->IsEnabled() == true) {
+
+					App->scene_honda->Disable();
+					App->scene_ken->Enable();
+				}
 
 				// ---
 				total_time += total_time;

@@ -1,9 +1,12 @@
 #include "Globals.h"
 #include "Application.h"
 #include "ModuleSceneHonda.h"
+#include "ModuleSceneKen.h"
 #include "ModuleTextures.h"
 #include "ModuleRender.h"
 #include "ModulePlayer.h"
+#include "ModuleInput.h"
+#include "ModuleFadeToBlack.h"
 
 // Reference at https://youtu.be/6OlenbCC4WI?t=382
 
@@ -39,7 +42,6 @@ bool ModuleSceneHonda::Start()
 	graphics = App->textures->Load("honda_stage2.png");
 
 	// TODO 1: Enable (and properly disable) the player module
-	App->scene_honda->Enable();
 
 	if (App->scene_honda->IsEnabled() == true)
 		App->player->Enable();
@@ -53,10 +55,10 @@ bool ModuleSceneHonda::CleanUp()
 	// TODO 5: Remove all memory leaks
 	LOG("Unloading honda stage");
 
-	App->scene_honda->Disable();
-
-	if (App->scene_honda->IsEnabled() == false)
-		App->player->Disable();
+	if (App->scene_honda->IsEnabled() == false) 
+		App->scene_honda->Disable();
+	
+	App->textures->Unload(graphics);
 
 	return true;
 }
@@ -73,6 +75,10 @@ update_status ModuleSceneHonda::Update()
 	App->render->Blit(graphics, 0, -16, &roof, 0.75f);
 
 	// TODO 2: make so pressing SPACE the KEN stage is loaded
+	if (App->input->keyboard[SDL_SCANCODE_SPACE] == 1) {
+
+		App->fade->FadeToBlack(App->scene_honda, App->scene_ken, 1);
+	}
 
 	return UPDATE_CONTINUE;
 }
